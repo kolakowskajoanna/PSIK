@@ -1,7 +1,7 @@
 #zadanie 5
-imie="aJoanna"
+imie="Joanna"
 le1=len(imie)
-nazwisko="aKolakowska"
+nazwisko="Kolakowska"
 le2=len(nazwisko)
-print(imie[le1:0:-1])
-print(nazwisko[le2:0:-1])
+print(imie[::-1])
+print(nazwisko[::-1])
