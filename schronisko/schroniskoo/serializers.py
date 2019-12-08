@@ -1,7 +1,7 @@
-from abc import ABC
+
 
 from rest_framework import serializers
-from schronisko.schroniskoo.models import *
+from .models import *
 
 
 class BoxSerializer(serializers.ModelSerializer):
