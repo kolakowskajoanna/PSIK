@@ -1,8 +1,10 @@
-
+from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
+from rest_framework import generics
 from rest_framework.parsers import JSONParser
 from .serializers import *
-from django.http import Http404, HttpResponse, JsonResponse
+from django.http import  HttpResponse, JsonResponse
+from rest_framework.views import APIView
 
 
 # Create your views here.
@@ -24,6 +26,7 @@ def pies_list(request):
             serializer.save()
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
+
 
 @csrf_exempt
 def pies_detail(request, pk):
@@ -48,12 +51,14 @@ def pies_detail(request, pk):
         pies.delete()
         return HttpResponse(status=204)
 
+
 @csrf_exempt
 def box_list(request):
     if request.method == 'GET':
         boxs = Box.objects.all()
         serializer = BoxSerializer(boxs, many=True)
         return JsonResponse(serializer.data, safe=False)
+
 
 @csrf_exempt
 def adopter_list(request):
@@ -69,6 +74,7 @@ def adopter_list(request):
             serializer.save()
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
+
 
 @csrf_exempt
 def adopter_detail(request, pk):
@@ -93,6 +99,7 @@ def adopter_detail(request, pk):
         adopter.delete()
         return HttpResponse(status=204)
 
+
 @csrf_exempt
 def adopcja_list(request):
     if request.method == 'GET':
@@ -101,6 +108,7 @@ def adopcja_list(request):
         return JsonResponse(serializer.data, safe=False)
 
     elif request.method == 'POST':
+        serializer.save(owner=self.request.user)
         data = JSONParser().parse(request)
         serializer = AdopcjaSerializer(data=data)
         if serializer.is_valid():
@@ -130,3 +138,13 @@ def adopcja_detail(request, pk):
     elif request.method == "DELETE":
         adopcja.delete()
         return HttpResponse(status=204)
+
+
+class UserList(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+class UserDetail(generics.RetriveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
