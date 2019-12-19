@@ -25,6 +25,7 @@ def pies_list(request):
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
 
+
 @csrf_exempt
 def pies_detail(request, pk):
     try:
@@ -54,6 +55,7 @@ def box_list(request):
         boxs = Box.objects.all()
         serializer = BoxSerializer(boxs, many=True)
         return JsonResponse(serializer.data, safe=False)
+
 
 @csrf_exempt
 def adopter_list(request):
