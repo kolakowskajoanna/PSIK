@@ -1,10 +1,10 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from schronisko.schroniskoo.models import *
+from .models import *
 
 
 class BoxSerializer(serializers.ModelSerializer):
-    owner = serializers.ReadOnlyFiled(source='owner.username')
+    owner = serializers.ReadOnlyField(source='owner.username')
 
     class Meta:
         model = Box
@@ -12,7 +12,7 @@ class BoxSerializer(serializers.ModelSerializer):
 
 
 class PiesSerializer(serializers.ModelSerializer):
-    owner = serializers.ReadOnlyFiled(source='owner.username')
+    owner = serializers.ReadOnlyField(source='owner.username')
 
     class Meta:
         model = Pies
@@ -21,7 +21,7 @@ class PiesSerializer(serializers.ModelSerializer):
 
 
 class AdopterSerializer(serializers.ModelSerializer):
-    owner = serializers.ReadOnlyFiled(source='owner.username')
+    owner = serializers.ReadOnlyField(source='owner.username')
 
     class Meta:
         model = Adopter
@@ -29,7 +29,7 @@ class AdopterSerializer(serializers.ModelSerializer):
 
 
 class AdopcjaSerializer(serializers.ModelSerializer):
-    owner = serializers.ReadOnlyFiled(source='owner.username')
+    owner = serializers.ReadOnlyField(source='owner.username')
 
     class Meta:
         model = Adopcja
@@ -37,7 +37,7 @@ class AdopcjaSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-     questions = serializers.PrimaryKeyRelatedFiled(many=True, queryset=Pies.objects.all())
+     questions = serializers.PrimaryKeyRelatedField(many=True, queryset=Pies.objects.all())
 
      class Meta:
          model = User

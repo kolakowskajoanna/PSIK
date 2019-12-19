@@ -18,6 +18,7 @@ from django.conf.urls import include, url
 
 
 urlpatterns = [
+    url('api-auth/',include('rest_framework.urls')),
     url('', include('schroniskoo.urls')),
     url(r'^admin/', admin.site.urls),
 ]

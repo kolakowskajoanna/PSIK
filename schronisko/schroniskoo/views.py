@@ -2,9 +2,13 @@ from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import generics
 from rest_framework.parsers import JSONParser
+from rest_framework.response import Response
+from .models import *
 from .serializers import *
 from django.http import  HttpResponse, JsonResponse
+from django.contrib.auth.models import User
 from rest_framework.views import APIView
+from rest_framework import permissions
 
 
 # Create your views here.
@@ -14,6 +18,7 @@ def index(request):
 
 @csrf_exempt
 def pies_list(request):
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     if request.method == 'GET':
         piess = Pies.objects.all()
         serializer = PiesSerializer(piess, many=True)
@@ -107,8 +112,8 @@ def adopcja_list(request):
         serializer = AdopcjaSerializer(adopcjas, many=True)
         return JsonResponse(serializer.data, safe=False)
 
+
     elif request.method == 'POST':
-        serializer.save(owner=self.request.user)
         data = JSONParser().parse(request)
         serializer = AdopcjaSerializer(data=data)
         if serializer.is_valid():
@@ -145,6 +150,6 @@ class UserList(generics.ListAPIView):
     serializer_class = UserSerializer
 
 
-class UserDetail(generics.RetriveAPIView):
+class UserDetail(generics.RetrieveAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
